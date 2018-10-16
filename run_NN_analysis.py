@@ -42,7 +42,7 @@ def main(batch_size=16):
 
     hist = model.fit_generator(train_gen,
                                steps_per_epoch=train_step_num,
-                               epochs=35,
+                               epochs=120,
                                validation_data=val_gen,
                                validation_steps=val_step_num,
                                callbacks=[checkpoint_func])

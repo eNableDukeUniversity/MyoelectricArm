@@ -78,6 +78,11 @@ def find_confusion_matrix(model, x_in, y_actual, categorical=True):
     else:
         tested_data_y = y_actual
 
+    accuracy = np.sum(
+            np.equal(predicted_data_y, tested_data_y)
+            )/len(tested_data_y)
+    print(accuracy)
+
     conf_matrix = confusion_matrix(tested_data_y, predicted_data_y)
     return conf_matrix
 
