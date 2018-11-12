@@ -8,7 +8,7 @@ from keras.callbacks import ModelCheckpoint
 def main(batch_size=16):
     from functional_NN_EMG import define_NN_architecture
     from math import floor
-    nn_data = import_data('waveletdata.pkl')
+    nn_data = import_data('full_data.pkl')
     (train_data_x, train_data_x_rms, train_data_y) = pre_process_data(nn_data)
 
     print('Running NN...')

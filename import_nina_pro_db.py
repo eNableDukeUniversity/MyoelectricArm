@@ -5,7 +5,7 @@ import glob
 import pickle
 
 module_loc = os.path.dirname(__file__)
-rel_loc = '../../MyoDatabase/'
+rel_loc = '../../../Downloads/Database/'  # path to raw data
 file_name = '*E2*.mat'
 
 myo_band_data = []
@@ -58,8 +58,12 @@ def create_dict(emg, stims, diff_ind):
         try:
             emg_data = emg[start:end]
             stimulus_data = stims[start:end]
+
+            if len(emg_data) == 0:
+                continue
+
             for_export = {'emg': emg_data,
-                          'stimulus': stimulus_data.max()}
+                          'stimulus': stimulus_data}
             myo_band_data.append(for_export)
         except ValueError:
 

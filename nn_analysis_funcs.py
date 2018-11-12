@@ -30,7 +30,7 @@ def pre_process_data(nn_data):
 
         label_append = np.where(trial['label'] == trial['label'].max())[0][0]
 
-        if all(trial['label'] == rest_label):
+        if all(trial['label'] == rest_label):  # get rid of excess rest trials
             if (uniform(1, 16) > 15):
                 train_data_x_wavelet.append(trial['wavelet'])
                 train_data_x_rms.append(trial['rms'])
