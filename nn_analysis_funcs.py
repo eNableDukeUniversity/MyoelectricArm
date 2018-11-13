@@ -19,6 +19,7 @@ def pre_process_data(nn_data):
 
     train_data_x_wavelet = []
     train_data_x_rms = []
+    train_data_x_emg = []
     train_data_y = []
 
     rest_label = nn_data[0]['label']
@@ -34,11 +35,13 @@ def pre_process_data(nn_data):
             if (uniform(1, 16) > 15):
                 train_data_x_wavelet.append(trial['wavelet'])
                 train_data_x_rms.append(trial['rms'])
+                train_data_x_emg.append(trial['emg'])
                 train_data_y.append(label_append)
 
         else:
             train_data_x_wavelet.append(trial['wavelet'])
             train_data_x_rms.append(trial['rms'])
+            train_data_x_emg.append(trial['emg'])
             train_data_y.append(label_append)
 
     train_data_y = to_categorical(train_data_y, num_classes=18)
@@ -51,6 +54,10 @@ def pre_process_data(nn_data):
             train_data_x_rms,
             (len(train_data_x_rms), 16)
             )
+    train_data_x_emg = np.reshape(
+            train_data_x_emg,
+            (len(train_data_x_emg), 200, 16, 1)
+            )
 
     rng_state = np.random.get_state()
     np.random.shuffle(train_data_y)
@@ -59,7 +66,8 @@ def pre_process_data(nn_data):
     np.random.set_state(rng_state)
     np.random.shuffle(train_data_x_rms)
 
-    return train_data_x_wavelet, train_data_x_rms, train_data_y
+    return (train_data_x_wavelet, train_data_x_rms,
+            train_data_x_emg, train_data_y)
 
 
 def find_confusion_matrix(model, x_in, y_actual, categorical=True):

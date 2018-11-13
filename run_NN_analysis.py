@@ -9,7 +9,7 @@ def main(batch_size=16):
     from functional_NN_EMG import define_NN_architecture
     from math import floor
     nn_data = import_data('full_data.pkl')
-    (train_data_x, train_data_x_rms, train_data_y) = pre_process_data(nn_data)
+    (train_data_x, train_data_x_rms, train_data_x_emg, train_data_y) = pre_process_data(nn_data)
 
     print('Running NN...')
     model = define_NN_architecture()
@@ -47,10 +47,11 @@ def main(batch_size=16):
                                validation_steps=val_step_num,
                                callbacks=[checkpoint_func])
 
-    conf_matrix = find_confusion_matrix(model,
-                                        [train_data_x[-test_length:],
-                                        train_data_x_rms[-test_length:]],
-                                        train_data_y[-test_length:])
+    # Change x-in based on what you are using for the inputs
+    x_in = [train_data_x[-test_length:], train_data_x_rms[-test_length:]]
+    y_in = train_data_y[-test_length:]
+
+    conf_matrix = find_confusion_matrix(model, x_in, y_in)
 
     show_confusion_matrix(conf_matrix)
     show_learning(hist)
